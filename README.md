@@ -1,13 +1,13 @@
 # Backend-Proyecto-Final
 
-
 **PROYECTO FINAL
 
 Desarrollo backend de un e-commerce con manejo de sesión con JWT conectada a una base de datos de MongoDB
 
 El proyecto contendrá lo siguiente:
 
-* Base de datos en Mongo Atlas
+✓ Base de datos en Mongo Atlas
+
 * La BD contendrá 3 colecciones ( Usuarios, Productos, Pedidos )
 * El Backend contendrá ( Rutas, Modelos, Middlewares, Controladores, Variables de Entorno )
 * Deberá haber un endpoint para el Login, Registrar Usuarios, password con Hash
