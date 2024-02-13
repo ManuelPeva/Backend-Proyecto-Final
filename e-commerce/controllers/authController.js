@@ -4,6 +4,11 @@ const getClientes = (req, res) =>{
 
 const createClientes = (req, res) =>{
     res.status(200).json({ mensaje: 'Cliente creado', datos: req.body })
+
+    if(!req.body.descripcion){
+        res.status(400)
+        throw new Error('por favor asegurate de hacer el registro correctamente')
+    }
 }
 
 const updateClientes = (req,res) =>{
