@@ -1,0 +1,4 @@
+node modules
+.env
+npm i express dotenv mongoose colors jsonwebtoken bcrypt
+npm i -D nodemon
