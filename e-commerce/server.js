@@ -15,6 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.use('/api/cliente', require('./routes/authRoutes'));
+//ruta de usuarios 
+app.use('/api/users', require('./routes/usersRoutes'));
 
 app.use(errorHandler);
 app.listen(port, () => {
