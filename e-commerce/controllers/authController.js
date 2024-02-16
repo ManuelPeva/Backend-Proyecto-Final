@@ -30,19 +30,28 @@ const createClientes = asyncHandler(async (req, res) => {
 })
 
 const updateClientes = asyncHandler(async (req, res) => {
-    const producto = await Producto.findById(req.params.id)
+    try {
+        const producto = await Producto.findById(req.params.id)
 
-    if (!producto) {
-        res.status(404)
-        throw new Error("El producto no existe")
+        if (!producto) {
+            res.status(404)
+            throw new Error("El producto no existe")
+        }
+
+        const productoUpdated = await Producto.findByIdAndUpdate(req.params.id , req.body, { new:true });   
+        
+        if (!productoUpdated) {
+            res.status(404)
+            throw new Error("Error al actualizar el producto")
+        }
+
+        console.log('Producto actualizado:', productoUpdated);
+        res.status(200).json({ productoUpdated })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error del servidor" });
     }
-
-    const productoUpdated = await Producto.findByIdAndUpdate(req.params.id, req.body);
-
-    res.status(200).json({ productoUpdated })
-    console.log(req.body);
-
-
 });
 
 const deleteClientes = asyncHandler(async (req, res) => {
