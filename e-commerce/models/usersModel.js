@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = mongoose.Schema({
     username: {
@@ -18,11 +19,18 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     }
-
 }, {
     timestamps: true
-})
+});
 
-//preguntar mas adelante si es admin o no, dependiendo de la selección vera o editara contenido
+userSchema.pre('save', async function (next) {
+    try {
+        const hashedPassword = await bcrypt.hash(this.password, 10);
+        this.password = hashedPassword;
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);

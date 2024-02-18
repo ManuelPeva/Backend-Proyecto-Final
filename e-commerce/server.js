@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const colors = require("colors");
 const connectDB = require('./config/db')
 const mongoose = require('mongoose');
