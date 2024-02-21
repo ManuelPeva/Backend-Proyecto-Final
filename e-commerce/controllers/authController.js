@@ -3,7 +3,8 @@ const Producto = require('../models/comprasModels')
 
 
 const getClientes = asyncHandler(async (req, res) => {
-    const productos = await Producto.find();
+
+    const productos = await Producto.find({ user: req.user.id });
     res.status(200).json(productos)
 });
 
@@ -17,6 +18,7 @@ const createClientes = asyncHandler(async (req, res) => {
     const producto = await Producto.create({
         producto: req.body.producto,
         descripcion: req.body.descripcion,
+        user: req.user.id,
         costo: req.body.costo
     })
 
@@ -38,8 +40,18 @@ const updateClientes = asyncHandler(async (req, res) => {
             throw new Error("El producto no existe")
         }
 
-        const productoUpdated = await Producto.findByIdAndUpdate(req.params.id , req.body, { new:true });   
-        
+        if (producto.user.toString() !== req.user.id) {
+            res.status(401)
+            throw new Error('No autorizado')
+
+        } else {
+            const productoUpdated = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+            res.status(200).json(productoUpdated)
+        }
+
+        const productoUpdated = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
         if (!productoUpdated) {
             res.status(404)
             throw new Error("Error al actualizar el producto")
@@ -61,13 +73,23 @@ const deleteClientes = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error("El producto no existe")
     }
-    await Producto.deleteOne(producto)
 
-    // const productoDelete = await Producto.findByIdAndDelete(req.params.id)
+    if (producto.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error('No autorizado')
 
-    res.status(200).json({ message:'Documento eliminado con exito', id: req.params.id })
-    
+    } else {
+        const productoUpdated = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
+        res.status(200).json(productoUpdated)
+
+        await Producto.deleteOne(producto)
+
+        // const productoDelete = await Producto.findByIdAndDelete(req.params.id)
+
+        res.status(200).json({ message: 'Documento eliminado con exito', id: req.params.id })
+
+    }
 })
 
 module.exports = {
