@@ -4,8 +4,8 @@
   "description": "proyecto-ecommerce-ussers",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js"
+    "start": "e-commerce/server.js",
+    "server": "nodemon e-commerce/server.js"
   },
   "repository": {
     "type": "git",
